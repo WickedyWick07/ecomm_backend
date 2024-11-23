@@ -33,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["ecomm-backend-ccrd.onrender.com", 'localhost:8000']
+ALLOWED_HOSTS = ["ecomm-backend-ccrd.onrender.com", 'localhost:8000', 'ecomm-frontend-eosin.vercel.app']
 
 
 
@@ -187,8 +187,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ['http://localhost:8000','https://ecomm-frontend-eosin.vercel.app' ]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
