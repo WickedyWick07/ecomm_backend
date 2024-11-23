@@ -31,16 +31,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-load_dotenv()
-SECRET_KEY = os.getenv('SECRET_KEY')
-PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
-PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
-DATABASE_URL = os.getenv('DATABASE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["ecomm-backend-ccrd.onrender.com"]
+ALLOWED_HOSTS = ["ecomm-backend-ccrd.onrender.com", 'localhost:8000']
 
 
 
