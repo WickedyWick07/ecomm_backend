@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from the .env file
+load_dotenv()
+
+# Access the variables using os.getenv() or os.environ
+SECRET_KEY = os.getenv('SECRET_KEY')
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +31,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-km3-#z-u*zqw*jbkmcirgk2d@ft+rm0j2xup&w9d)aj-3=g&v1'
+load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
+PAYPAL_CLIENT_ID = os.getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = os.getenv('PAYPAL_CLIENT_SECRET')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,9 +43,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# settings.py
-PAYPAL_CLIENT_ID = 'AXkH0FHMXJinKm3n8VbelIGTwsAjV9ahuS8LvVuKnakXlq1Iq2NVvglJy579ZRXNMhrVLgzckWrFYMpG'
-PAYPAL_CLIENT_SECRET = 'EN3iDrutk478RGvhyZJmbpjxG_5GPCEG9s19ctw0fmSDBuLG8Q1H7XvyUQ2HeS8FCo5_p1_wI0tw3rWG'
 
 # Application definition
 
