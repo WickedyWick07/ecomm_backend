@@ -18,12 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static 
+from users.views import register, login, logout, user_detail
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/', include('shop.urls')),
     path('api/user/', include('users.urls')),
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
+    path('user/', user_detail, name='user_detail'),
     path('api/', include('cart.urls')),
     path('api/', include('payments.urls')),
 
