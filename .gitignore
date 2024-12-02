@@ -16,9 +16,7 @@ venv/
 # Ignore database files (SQLite)
 db.sqlite3
 
-# Ignore media and static files (optional, if not using external storage)
-media/
-static/
+
 
 # Ignore the PyCharm project files
 .idea/
@@ -28,3 +26,5 @@ static/
 
 # Ignore system files
 .DS_Store
+
+/scripts/
