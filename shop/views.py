@@ -6,6 +6,33 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product
 from ecomm_backend.pagination import CustomPageNumberPagination
 from .serializers import ProductSerializer
+import binascii
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def serve_product_image(request, pk):
+    try:
+        # Fetch the product with the given ID
+        product = get_object_or_404(Product, pk=pk)
+
+        # Ensure the product has an image
+        if product.image:
+            # Convert the hex-encoded image data to raw bytes
+            image_data = binascii.unhexlify(product.image.hex().replace('\\x', ''))
+
+            # Determine the appropriate content type (e.g., 'image/jpeg', 'image/png')
+            content_type = 'image/jpeg'  # Adjust based on your image type
+
+            # Serve the image as an HTTP response
+            return HttpResponse(image_data, content_type=content_type)
+
+        else:
+            return HttpResponse('No image found for this product', status=404)
+
+    except Product.DoesNotExist:
+        return HttpResponse('Product not found', status=404)
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
