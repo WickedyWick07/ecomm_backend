@@ -22,7 +22,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.BinaryField(null=True, blank=True)  # Storing image as binary data
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True)  # Updated to ImageField
     image_mime_type = models.CharField(max_length=50, null=True, blank=True)
     def __str__(self):
         return self.name
