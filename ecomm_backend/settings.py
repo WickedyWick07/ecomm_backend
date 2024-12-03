@@ -155,6 +155,9 @@ DATABASES = {
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
         'PORT': 5432,
+        'OPTIONS': {
+            'sslmode': 'require',  # Ensures SSL is used for the connection
+        },
     }
 }
 
