@@ -29,3 +29,5 @@ db.sqlite3
 
 ecomm_backend/scripts/
 shop/management/commands/
+# Local Netlify folder
+.netlify

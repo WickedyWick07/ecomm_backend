@@ -208,7 +208,10 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where collectstatic will put static files
 
 # Media files
-MEDIA_URL = '/media/'
+MEDIA_URL = "https://ecomm-images.netlify.app/"
+# settings.py
+NETLIFY_MEDIA_URL = 'https://ecomm-images.netlify.app/product_images/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # This is where your media files are located
 
 
