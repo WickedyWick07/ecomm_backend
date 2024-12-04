@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views 
+from django.urls import re_path
 
 urlpatterns = [
     path('products/', views.product_list, name='product-list'),
@@ -8,6 +9,5 @@ urlpatterns = [
     path('products/<int:pk>/update/', views.product_update, name='product-update'),
     path('products/<int:pk>/delete/', views.product_delete, name='product-delete'),
     path('products/<int:pk>/update_stock/', views.update_stock, name='product-update-stock'),
-    path('product-image/<int:pk>/', views.serve_product_image, name='product_image'),
-
+    re_path(r'^media/(?P<path>.*)$', views.serve_media, name='serve_media')
 ]

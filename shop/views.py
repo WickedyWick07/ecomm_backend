@@ -9,30 +9,53 @@ from .serializers import ProductSerializer
 import binascii
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.http import FileResponse, Http404
+from django.views.decorators.http import require_GET
+import os
+import mimetypes
+from django.conf import settings
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
-def serve_product_image(request, pk):
+def serve_media(request, path):
     try:
-        # Fetch the product with the given ID
-        product = get_object_or_404(Product, pk=pk)
-
-        # Ensure the product has an image
-        if product.image:
-            # Convert the hex-encoded image data to raw bytes
-            image_data = binascii.unhexlify(product.image.hex().replace('\\x', ''))
-
-            # Determine the appropriate content type (e.g., 'image/jpeg', 'image/png')
-            content_type = 'image/jpeg'  # Adjust based on your image type
-
-            # Serve the image as an HTTP response
-            return HttpResponse(image_data, content_type=content_type)
-
-        else:
-            return HttpResponse('No image found for this product', status=404)
-
-    except Product.DoesNotExist:
-        return HttpResponse('Product not found', status=404)
+        # Construct the full path to the media file
+        media_root = settings.MEDIA_ROOT
+        file_path = os.path.join(media_root, path)
+        
+        # Verify file exists
+        if not os.path.exists(file_path):
+            raise Http404("File not found")
+        
+        # Determine MIME type based on file extension
+        content_type, _ = mimetypes.guess_type(file_path)
+        
+        # Fallback to specific image MIME types if guess fails
+        if not content_type:
+            if file_path.lower().endswith('.jpg') or file_path.lower().endswith('.jpeg'):
+                content_type = 'image/jpeg'
+            elif file_path.lower().endswith('.png'):
+                content_type = 'image/png'
+            elif file_path.lower().endswith('.gif'):
+                content_type = 'image/gif'
+            else:
+                content_type = 'application/octet-stream'
+        
+        # Open and serve the file
+        response = FileResponse(
+            open(file_path, 'rb'), 
+            content_type=content_type
+        )
+        
+        # Add caching headers
+        response['Cache-Control'] = 'public, max-age=86400'  # Cache for 24 hours
+        
+        return response
+    
+    except Exception as e:
+        # Log the error (in production, use proper logging)
+        print(f"Error serving media file: {e}")
+        raise Http404("Error serving file")
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
