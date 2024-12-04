@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
-
+    ordering = ['name']
     class CategoryChoices(models.TextChoices):
         SPORTS = 'SPORTS', 'Sports'
         FOODS = 'FOODS', 'Foods'
