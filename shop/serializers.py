@@ -5,6 +5,8 @@ from django.conf import settings
 class ProductSerializer(serializers.ModelSerializer):
     # Adding a custom field to return the full image URL
     image_url = serializers.SerializerMethodField()
+    ordering = ['id']  # Replace 'id' with the desired field
+
 
     class Meta:
         model = Product

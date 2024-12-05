@@ -72,7 +72,7 @@ def product_create(request):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def product_list(request):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('id')
     serializer = ProductSerializer(data=request.data)
     
 

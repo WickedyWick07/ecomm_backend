@@ -201,7 +201,15 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8000','https://ecomm-frontend-eosin.vercel.app' ]
+CORS_ALLOWED_ORIGINS = ['http://localhost:8000','https://ecomm-frontend-eosin.vercel.app', 'http://localhost:5173', 'http://127.0.0.1:8000' ]
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = [
+    "ecomm-backend-ccrd.onrender.com",
+    "localhost",
+    "127.0.0.1",
+    "ecomm-frontend-eosin.vercel.app",
+]
+
 
 # Static files
 STATIC_URL = '/static/'
