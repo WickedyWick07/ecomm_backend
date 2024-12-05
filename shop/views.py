@@ -14,6 +14,8 @@ from django.views.decorators.http import require_GET
 import os
 import mimetypes
 from django.conf import settings
+from django.db.models import Q
+
 
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
@@ -72,33 +74,35 @@ def product_create(request):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def product_list(request):
-    queryset = Product.objects.all().order_by('id')
-    serializer = ProductSerializer(data=request.data)
-    
+    queryset = Product.objects.all().order_by('id')  # Ensure ordering to avoid pagination warnings
 
+    # Apply filters
     min_price = request.query_params.get("min_price")  
     max_price = request.query_params.get("max_price")
     if min_price:
-        queryset = queryset.filter(price_gte=min_price)
-
+        queryset = queryset.filter(price__gte=min_price)  # Fixed the filter lookup
     if max_price:
-        queryset = queryset.filter(price_lte=max_price)
+        queryset = queryset.filter(price__lte=max_price)
 
+    # Search filter
     search = request.query_params.get("search")
     if search: 
-        queryset = queryset.filter(name__icontains=search) | queryset.filter(category__icontains=search)
-        
+        queryset = queryset.filter(
+            Q(name__icontains=search) | Q(category__icontains=search)  # Use Q for OR condition
+        )
 
+    # Ordering
     ordering = request.query_params.get('ordering')
     if ordering:
         queryset = queryset.order_by(ordering)
 
+    # Pagination
     paginator = CustomPageNumberPagination()
     paginated_queryset = paginator.paginate_queryset(queryset, request)
 
+    # Serialize paginated data
     serializer = ProductSerializer(paginated_queryset, many=True)
     return paginator.get_paginated_response(serializer.data)
-
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
